@@ -134,7 +134,7 @@
         btn.onclick = () => {
           if (choice.correct) {
             confetti();
-            if (q.text === "Apakah kamu mau jadi pacarku?") {
+            if (q.text.toLowerCase().includes("pacarku")) {
               document.getElementById("gifContainer").style.display = "block";
             }
           } else {
@@ -160,5 +160,6 @@
   </script>
 </body>
 </html>
+
 
 
