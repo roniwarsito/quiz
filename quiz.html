@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kuis Interaktif</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .question {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #3498db;
+      color: white;
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .shake {
+      animation: shake 0.3s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    #qrcode {
+      margin-top: 20px;
+    }
+    #gifContainer {
+      display: none;
+      margin-top: 20px;
+    }
+    #gifContainer img {
+      max-width: 300px;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kuis Interaktif</h1>
+  <div id="quiz"></div>
+
+  <!-- Container GIF -->
+  <div id="gifContainer">
+    <img src="bear.gif" alt="Love Gif">
+  </div>
+
+  <h3>Bagikan via Barcode (QR)</h3>
+  <input type="text" id="linkInput" placeholder="Masukkan URL halaman ini" size="40" />
+  <button onclick="generateQR()">Generate QR</button>
+  <div id="qrcode"></div>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- QRCode -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  
+  <script>
+    const QUESTIONS = [
+      {
+        text: "Ibu kota Indonesia adalah?",
+        choices: [
+          { text: "Jakarta ✅", correct: true },
+          { text: "Bandung", correct: false },
+          { text: "Surabaya", correct: false }
+        ]
+      },
+      {
+        text: "Hewan tercepat di darat adalah?",
+        choices: [
+          { text: "Cheetah ✅", correct: true },
+          { text: "Kuda", correct: false },
+          { text: "Singa", correct: false }
+        ]
+      },
+      {
+        text: "2 + 2 × 2 = ?",
+        choices: [
+          { text: "6 ✅", correct: true },
+          { text: "8", correct: false },
+          { text: "4", correct: false }
+        ]
+      },
+      {
+        text: "Apakah kamu mau jadi pacarku?",
+        choices: [
+          { text: "Ya 💖", correct: true },
+          { text: "Tidak 😢", correct: false }
+        ]
+      }
+    ];
+
+    const quizDiv = document.getElementById("quiz");
+
+    QUESTIONS.forEach((q) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      const h2 = document.createElement("h2");
+      h2.textContent = q.text;
+      div.appendChild(h2);
+
+      q.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice.text;
+        btn.onclick = () => {
+          if (choice.correct) {
+            confetti();
+            if (q.text === "Apakah kamu mau jadi pacarku?") {
+              document.getElementById("gifContainer").style.display = "block";
+            }
+          } else {
+            div.classList.add("shake");
+            setTimeout(() => div.classList.remove("shake"), 500);
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      quizDiv.appendChild(div);
+    });
+
+    function generateQR() {
+      const link = document.getElementById("linkInput").value;
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), {
+        text: link,
+        width: 200,
+        height: 200
+      });
+    }
+  </script>
+</body>
+</html>
