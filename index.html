@@ -111,7 +111,7 @@
         ]
       },
       {
-        text: "mau ga kamu jadi pacarku bes?",
+        text: "mau ga kamu jadi pacarku?",
         choices: [
           { text: "Mau banget 💖", correct: true },
           { text: "Gak ah males 😢", correct: true }
@@ -134,7 +134,7 @@
         btn.onclick = () => {
           if (choice.correct) {
             confetti();
-            if (q.text.toLowerCase().includes("pacarku")) {
+            if (q.text.toLowerCase().includes("banget")) {
               document.getElementById("gifContainer").style.display = "block";
             }
           } else {
@@ -160,6 +160,7 @@
   </script>
 </body>
 </html>
+
 
 
 
